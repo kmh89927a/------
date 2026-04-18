@@ -292,7 +292,7 @@ sequenceDiagram
 | --- | --- | --- | --- |
 | **REQ-FUNC-001** | 시스템은 사용자가 두 개의 직장 주소를 입력할 수 있는 인터페이스를 제공해야 한다. 각 주소 입력 필드는 자동완성(Geocoding) 기능을 포함해야 한다. | Must | Story 3-1 |
 | **REQ-FUNC-002** | 시스템은 두 개의 직장 주소가 모두 입력된 경우에만 "진단 시작" 버튼을 활성화해야 한다. 주소가 1개만 입력된 상태에서 "진단 시작" 클릭 시 "두 번째 주소를 입력해 주세요" 인라인 에러를 200ms 이내에 표시하고, 진단 API 호출을 차단해야 한다. 불완전 요청의 서버 도달률은 0%여야 한다. | Must | Story 3-1, AC-N1 |
-| **REQ-FUNC-003** | 시스템은 두 직장 주소를 기반으로 교집합 후보 동네를 3곳 이상 산출하고, 지도 위에 시각화해야 한다. 교통 API 호출 포함 총 응답 시간은 p95 ≤ 3,000ms이며, 실패율은 1% 미만이어야 한다. | Must | Story 3-1, AC-1 |
+| **REQ-FUNC-003** | 시스템은 두 직장 주소를 기반으로 교집합 후보 동네를 3곳 이상 산출하고, 지도 위에 시각화해야 한다. Vercel 무료 티어의 10초 Timeout을 방지하기 위해, 외부 교통 API 반복 호출 연산과 교차 연산 로직은 Next.js 서버(Server Action)가 아닌, 사용자 브라우저(Client Component) 내부에서 비동기 병렬 구조(Promise.all)로 처리해야 한다. | Must | Story 3-1, AC-1 |
 | **REQ-FUNC-004** | 시스템은 각 후보 동네를 탭했을 때 양쪽 직장까지의 예상 출퇴근 시간(대중교통·자차)을 표시해야 한다. 카카오맵 API 대비 시간 오차는 ±10% 이내여야 한다. | Must | Story 3-1, AC-2 |
 | **REQ-FUNC-005** | 시스템은 출근 시간대(오전 7~9시 범위)를 변경했을 때 해당 시간대 평균 소요시간으로 출퇴근 시뮬레이션을 재계산해야 한다. 재계산 응답은 p95 ≤ 2,000ms이며, 시간대별 데이터 커버리지는 수도권 85% 이상이어야 한다. | Must | Story 3-1, AC-3 |
 | **REQ-FUNC-006** | 시스템은 조건 필터(최대 통근 시간, 예산)를 적용했을 때 조건에 맞지 않는 후보를 실시간 필터링하고 지도를 갱신해야 한다. 필터 적용 응답은 p95 ≤ 1,000ms여야 한다. | Must | Story 3-1, AC-4 |
@@ -335,8 +335,8 @@ sequenceDiagram
 | ID | 요구사항 | Priority | Source |
 | --- | --- | --- | --- |
 | **REQ-FUNC-015** | 시스템은 사용자가 이사 마감일(D-day)을 입력하고 "데드라인 모드"를 활성화할 수 있는 인터페이스를 제공해야 한다. 활성화 시 계약 역산 타임라인(서류 준비·잔금 일정 등 5단계 이상)을 2초 이내에 자동 생성해야 한다. | Must | Story 3-3, AC-1 |
-| **REQ-FUNC-016** | 시스템은 데드라인 모드에서 매물 목록 조회 시 당일 신규 등록 급매 매물을 최상단에 표시하고, 등록 후 경과 시간을 표기해야 한다. 급매 데이터 갱신 지연은 4시간 이내여야 한다. | Must | Story 3-3, AC-2 |
-| **REQ-FUNC-017** | 시스템은 데드라인 모드에서 사용자 조건 필터(직장 동선 + 배정 구역)를 적용하면 교집합 매물만 필터링하여 지도와 리스트에 동시 표시해야 한다. 교집합 연산 응답 시간은 p95 ≤ 1,500ms여야 한다. 매물 0건 시 인근 동 반경 확장을 자동 제안해야 한다. | Must | Story 3-3, AC-3 |
+| **REQ-FUNC-016** | 시스템은 데드라인 모드에서 교집합 동네를 클릭하면 해당 조건을 네이버 부동산 검색 URL 파라미터로 조합하여 아웃링크로 새 창을 연다. (직접 크롤링 대체) | Must | Story 3-3, AC-2 |
+| **REQ-FUNC-017** | (조정됨) 매물 직접 필터링 배제 - 아웃링크를 통한 조건 위임으로 대체 | Must | Story 3-3, AC-3 |
 | **REQ-FUNC-018** | 시스템은 "30분 요약" 버튼 클릭 시 Top 3 매물의 핵심 정보(통근 시간·가격·배정 학교 등)를 카드 형태로 요약해야 한다. 요약 카드당 정보 항목은 6개 이상이어야 한다. | Must | Story 3-3, AC-4 |
 | **REQ-FUNC-019** | 시스템은 데드라인 모드에서 교집합 급매 매물이 0건인 경우, "현재 조건의 급매가 없습니다" 안내와 함께 ① 인근 동 반경 확장 제안, ② 조건 완화 슬라이더, ③ 신규 급매 푸시 알림 구독 옵션을 1초 이내에 표시해야 한다. 알림 구독 전환율을 Mixpanel로 추적해야 한다. | Must | Story 3-3, AC-N1 |
 | **REQ-FUNC-020** | 시스템은 사용자가 이사 마감일을 과거 날짜로 입력한 경우, 달력 UI에서 과거 날짜 선택을 차단하고 "마감일은 오늘 이후여야 합니다" 인라인 에러를 100ms 이내에 표시해야 한다. 잘못된 날짜의 서버 도달률은 0%여야 한다. | Must | Story 3-3, AC-N2 |
@@ -357,7 +357,7 @@ sequenceDiagram
 | --- | --- | --- | --- |
 | **REQ-FUNC-021** | 시스템은 "싱글 모드" 선택 시 직장 + 여가 거점 2곳을 입력할 수 있는 인터페이스를 제공해야 한다. 입력 완료 시 학군·가족 관련 항목을 결과에서 자동 숨김 처리하고, 야간 치안·편의시설·카페 밀집도 레이어를 기본 활성화해야 한다. 불필요 항목 노출은 0건이어야 한다. | Must | Story 3-4, AC-1 |
 | **REQ-FUNC-022** | 시스템은 싱글 모드 후보 동네 탭 시 야간(22~06시) 범죄 발생 건수 기반 안전 등급(A~D)을 표시해야 한다. 치안 데이터 커버리지는 수도권 90% 이상이며, 데이터 지연은 분기 이내여야 한다. | Must | Story 3-4, AC-2 |
-| **REQ-FUNC-023** | 시스템은 싱글 모드 리포트 "리포트 저장" 클릭 시 간소화된 리포트(A4 1~2쪽 분량)를 PDF로 다운로드해야 한다. PDF 생성 시간은 3초 이내여야 하며, 포함 항목은 통근·치안·편의시설·월세 범위여야 한다. | Must | Story 3-4, AC-3 |
+| **REQ-FUNC-023** | 시스템은 싱글 모드 리포트 "리포트 저장" 클릭 시 클라이언트 브라우저의 기본 window.print() 메서드 호출과 CSS @media print 제어를 통해 PDF 저장을 안내한다. | Must | Story 3-4, AC-3 |
 | **REQ-FUNC-024** | 시스템은 싱글 모드에서 여가 거점 주소가 서비스 커버리지 밖(비수도권)인 경우, "해당 지역은 현재 수도권만 지원됩니다" 안내를 500ms 이내에 표시하고 지원 지역 목록을 제공해야 한다. 커버리지 밖 주소로의 진단 실행은 0건이어야 한다. | Must | Story 3-4, AC-N1 |
 
 **REQ-FUNC-021 Acceptance Criteria:**
@@ -418,7 +418,7 @@ sequenceDiagram
 
 | ID | 요구사항 | 측정 기준 | 측정 방법 | Source |
 | --- | --- | --- | --- | --- |
-| **REQ-NF-001** | 두 동선 교차 계산 응답 시간 | p95 ≤ 3,000ms (교통 API 2회 호출 포함) | Vercel Analytics + Sentry Performance p95 메트릭 | PRD §5-1, Story 3-1 AC-1 |
+| **REQ-NF-001** | 두 동선 교차 계산 응답 시간 | p95 ≤ 8,000ms (클라이언트 API 콜 기준) | Vercel Analytics + Sentry Performance p95 메트릭 | PRD §5-1, Story 3-1 AC-1 |
 | **REQ-NF-002** | 일반 페이지 로딩 시간 | p95 ≤ 1,500ms (3G 모바일 환경 기준) | Lighthouse/WebPageTest + Vercel Speed Insights | PRD §5-1 |
 | **REQ-NF-003** | 공유 링크 페이지 로딩 시간 | p95 ≤ 2,000ms (비회원·비설치 환경, 3G) | Lighthouse/WebPageTest + Vercel Speed Insights | PRD §5-1, Story 3-2 AC-2 |
 | **REQ-NF-004** | 필터 적용 / 재계산 응답 시간 | p95 ≤ 1,000ms (클라이언트 사이드 캐싱 활용) | Vercel Analytics + 클라이언트 로그 | PRD §5-1, Story 3-1 AC-4 |
@@ -427,17 +427,16 @@ sequenceDiagram
 | **REQ-NF-007** | 교집합 매물 연산 응답 시간 (데드라인 모드) | p95 ≤ 1,500ms | Vercel Analytics | Story 3-3 AC-3 |
 | **REQ-NF-008** | 평균 탐색 완료 시간 | p50 ≤ 10분 (`diagnosis_started` → `diagnosis_completed`) | Mixpanel 이벤트 타임스탬프 차이 | PRD §1-3, 보조 KPI 6 |
 | **REQ-NF-009** | 재탐색 응답 시간 | ≤ 5초 (`search_replay` → `diagnosis_completed`) | Vercel Analytics | Story 3-5 AC-2 |
-| **REQ-NF-010** | PDF 리포트 생성 시간 | ≤ 3초 (@react-pdf/renderer 서버사이드 생성) | 서버 로그 | Story 3-4 AC-3 |
+| **REQ-NF-010** | PDF 리포트 저장 응답 시간 | ≤ 1초 (window.print() 클라이언트 호출) | 클라이언트 로그 | Story 3-4 AC-3 |
 
 #### 4.2.2 가용성 및 신뢰성 (Availability & Reliability)
 
 | ID | 요구사항 | 측정 기준 | 측정 방법 | Source |
 | --- | --- | --- | --- | --- |
-| **REQ-NF-011** | 월간 서비스 가용성 (Uptime) | ≥ 99.5% (월 다운타임 ≤ 3.65시간) | Vercel Status + Sentry Uptime 모니터링 | PRD §5-2 |
+| **REQ-NF-011** | 월간 서비스 가용성 (Uptime) | Best Effort 지원 (무료 티어 제약 수용) | Vercel Status + Sentry Uptime 모니터링 | PRD §5-2 |
 | **REQ-NF-012** | 서버 오류율 (5xx 응답) | ≤ 0.5% | Sentry 에러 비율 | PRD §5-2 |
 | **REQ-NF-013** | 데이터 정합성 (교통 시간 오차) | ≤ ±10% (카카오맵 기준 교차 검증) | 주간 샘플링 교차 검증 (100건) | PRD §5-2, Story 3-1 AC-2 |
-| **REQ-NF-014** | 재해 복구 시간 (RTO) | ≤ 4시간 | DR Drill 결과 | PRD §5-2 |
-| **REQ-NF-015** | 데이터 백업 복구 지점 (RPO) | ≤ 1시간 (Supabase 자동 백업) | Supabase 백업 로그 타임스탬프 | PRD §5-2 |
+
 | **REQ-NF-016** | 입력값 자동 저장 성공률 | ≥ 99.9% | 서버 로그 저장 실패 비율 | Story 3-5 AC-1 |
 
 #### 4.2.3 보안 (Security)
@@ -486,8 +485,7 @@ sequenceDiagram
 
 | ID | 요구사항 | 측정 기준 | Source |
 | --- | --- | --- | --- |
-| **REQ-NF-039** | 시스템은 MVP(목표 1,000명/월) 대비 10배 트래픽(10,000명/월)까지 수평 확장 가능해야 한다. Vercel 자동 스케일링 + Supabase 커넥션 풀링으로 대응한다. | 부하 테스트에서 p95 응답 시간 목표치 초과 없이 10x 처리 | PRD §8-1 GA |
-| **REQ-NF-040** | 시스템은 교통 API 공급자를 카카오 → 네이버 또는 기타로 24시간 이내에 전환할 수 있는 어댑터 패턴을 적용해야 한다. | API 전환 리드타임 ≤ 24시간 | ADR-001, R1 |
+
 | **REQ-NF-041** | 시스템은 v1.5 지방 확장 시 지역 코드 추가만으로 커버리지를 확장할 수 있는 설계여야 한다. Prisma schema + 시드 데이터만 추가하면 된다. | 신규 지역 추가 시 코드 변경 ≤ 설정 파일 + 데이터 적재 | ADR-003 |
 
 ---
@@ -563,8 +561,7 @@ sequenceDiagram
 | API-08 | — | *(NextAuth 내장 세션 관리)* | 세션 자동 갱신 | NextAuth가 자동 처리 | NextAuth가 자동 처리 | NextAuth Built-in | 자동 | — |
 | API-09 | POST | `initiateCheckout()` | 결제 요청 | `diagnosis_id`: uuid, `plan`: enum(one_time\|subscription), `amount`: int | `payment_id`: string, `checkout_url`: string | Server Action | NextAuth Session | ≤ 1,000ms |
 | API-10 | POST | `/api/payment/webhook` | PG사 결제 콜백 | `transaction_id`: string, `status`: enum(success\|fail), `signature`: string | `ack`: boolean | Route Handler | 서명 검증 | ≤ 500ms |
-| API-11 | GET | `/api/diagnosis/[id]/report.pdf` | PDF 리포트 다운로드 | — | Binary (application/pdf) — @react-pdf/renderer 생성 | Route Handler | NextAuth Session | ≤ 3,000ms |
-| API-12 | POST | `/api/cron/crawl-listings` | 급매 매물 크롤링 (Vercel Cron Job) | Vercel Cron 스케줄러가 자동 호출 | `crawled_count`: int, `status`: string | Route Handler (Cron) | Vercel Cron 서명 | ≤ 60,000ms |
+
 
 ### 6.2 Entity & Data Model
 
@@ -575,14 +572,9 @@ sequenceDiagram
 ```mermaid
 erDiagram
     USER ||--o{ DIAGNOSIS : creates
-    USER ||--o{ SAVED_SEARCH : saves
     USER ||--o{ PAYMENT : pays
-    DIAGNOSIS ||--|{ COMMUTE_POINT : has
-    DIAGNOSIS ||--o{ CANDIDATE_AREA : generates
     DIAGNOSIS ||--o{ SHARE_LINK : shared_via
     DIAGNOSIS ||--o{ PAYMENT : charged_for
-    SHARE_LINK ||--o{ VIEW_LOG : logged_by
-    SAVED_SEARCH ||--o| DIAGNOSIS : references
 
     USER {
         uuid id PK
@@ -602,25 +594,6 @@ erDiagram
         boolean deadline_mode
         timestamp created_at
     }
-    COMMUTE_POINT {
-        uuid id PK
-        uuid diagnosis_id FK
-        varchar label
-        decimal latitude
-        decimal longitude
-        varchar address "AES-256 암호화"
-    }
-    CANDIDATE_AREA {
-        uuid id PK
-        uuid diagnosis_id FK
-        varchar dong_code
-        varchar dong_name
-        int commute_min_a
-        int commute_min_b
-        enum safety_grade "A | B | C | D"
-        jsonb score_breakdown
-        int rank
-    }
     SHARE_LINK {
         uuid id PK
         uuid diagnosis_id FK
@@ -630,14 +603,6 @@ erDiagram
         boolean free_preview_used
         date expires_at
         timestamp created_at
-    }
-    SAVED_SEARCH {
-        uuid id PK
-        uuid user_id FK
-        uuid diagnosis_id FK "nullable"
-        jsonb search_params
-        timestamp saved_at
-        date next_alert "nullable"
     }
     PAYMENT {
         uuid id PK
@@ -649,13 +614,6 @@ erDiagram
         enum status "pending | success | fail | refunded"
         timestamp created_at
         timestamp completed_at "nullable"
-    }
-    VIEW_LOG {
-        uuid id PK
-        uuid share_link_id FK
-        varchar viewer_ip_hash
-        varchar user_agent "nullable"
-        timestamp viewed_at
     }
 ```
 
@@ -683,32 +641,7 @@ erDiagram
 | `deadline_mode` | BOOLEAN | NOT NULL, DEFAULT FALSE | 데드라인 모드 활성화 여부 |
 | `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | 진단 생성일시 |
 
-#### 6.2.3 COMMUTE_POINT
-
-| 필드명 | 타입 | 제약조건 | 설명 |
-| --- | --- | --- | --- |
-| `id` | UUID | PK, NOT NULL | 출퇴근 거점 고유 식별자 |
-| `diagnosis_id` | UUID | FK → DIAGNOSIS.id, NOT NULL | 소속 진단 |
-| `label` | VARCHAR(50) | NOT NULL | 거점 레이블 (예: "직장A", "직장B", "여가 거점") |
-| `latitude` | DECIMAL(10,7) | NOT NULL | 위도 |
-| `longitude` | DECIMAL(10,7) | NOT NULL | 경도 |
-| `address` | VARCHAR(500) | NOT NULL | 입력 주소 (AES-256 암호화 저장) |
-
-#### 6.2.4 CANDIDATE_AREA
-
-| 필드명 | 타입 | 제약조건 | 설명 |
-| --- | --- | --- | --- |
-| `id` | UUID | PK, NOT NULL | 후보 동네 고유 식별자 |
-| `diagnosis_id` | UUID | FK → DIAGNOSIS.id, NOT NULL | 소속 진단 |
-| `dong_code` | VARCHAR(10) | NOT NULL | 법정동 코드 |
-| `dong_name` | VARCHAR(100) | NOT NULL | 행정동 이름 |
-| `commute_min_a` | INTEGER | NOT NULL | 거점 A까지 출퇴근 시간 (분) |
-| `commute_min_b` | INTEGER | NOT NULL | 거점 B까지 출퇴근 시간 (분) |
-| `safety_grade` | ENUM('A', 'B', 'C', 'D') | NULLABLE | 야간 치안 안전 등급 |
-| `score_breakdown` | JSONB | NOT NULL | 스코어 상세 (교통·치안·편의시설·교육 등) |
-| `rank` | INTEGER | NOT NULL | 추천 순위 |
-
-#### 6.2.5 SHARE_LINK
+#### 6.2.3 SHARE_LINK
 
 | 필드명 | 타입 | 제약조건 | 설명 |
 | --- | --- | --- | --- |
@@ -721,18 +654,7 @@ erDiagram
 | `expires_at` | DATE | NOT NULL | 만료일 (생성일 + 30일) |
 | `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 
-#### 6.2.6 SAVED_SEARCH
-
-| 필드명 | 타입 | 제약조건 | 설명 |
-| --- | --- | --- | --- |
-| `id` | UUID | PK, NOT NULL | 저장된 검색 고유 식별자 |
-| `user_id` | UUID | FK → USER.id, NOT NULL | 소유 사용자 |
-| `diagnosis_id` | UUID | FK → DIAGNOSIS.id, NULLABLE | 원본 진단 참조 |
-| `search_params` | JSONB | NOT NULL | 저장된 검색 조건 (주소·필터·시간대) |
-| `saved_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | 저장 일시 |
-| `next_alert` | DATE | NULLABLE | 다음 재탐색 알림 일자 |
-
-#### 6.2.7 PAYMENT
+#### 6.2.4 PAYMENT
 
 | 필드명 | 타입 | 제약조건 | 설명 |
 | --- | --- | --- | --- |
@@ -746,32 +668,19 @@ erDiagram
 | `created_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | 결제 요청일시 |
 | `completed_at` | TIMESTAMP | NULLABLE | 결제 완료일시 |
 
-#### 6.2.8 VIEW_LOG (공유 링크 열람 로그)
-
-| 필드명 | 타입 | 제약조건 | 설명 |
-| --- | --- | --- | --- |
-| `id` | UUID | PK, NOT NULL | 열람 로그 고유 식별자 |
-| `share_link_id` | UUID | FK → SHARE_LINK.id, NOT NULL | 열람 대상 공유 링크 |
-| `viewer_ip_hash` | VARCHAR(64) | NOT NULL | 열람자 IP 해시 (개인정보 비식별화) |
-| `user_agent` | VARCHAR(500) | NULLABLE | 브라우저 User-Agent |
-| `viewed_at` | TIMESTAMP | NOT NULL, DEFAULT NOW() | 열람 일시 |
-
 ### 6.3 Detailed Interaction Models (상세 시퀀스 다이어그램)
 
 #### 6.3.1 두 동선 교차 진단 — 상세 플로우 (정상 + 에러 핸들링)
+
+> **v0.3 변경사항 (REQ-FUNC-003):** Vercel 무료 티어 10초 Serverless Timeout을 회피하기 위해, 외부 교통 API 반복 호출과 교차 연산을 **Client Component에서 비동기 병렬(Promise.all)로 직접 처리**하도록 변경하였다. Server Action은 Geocoding·커버리지 검증·결과 저장만 담당한다.
 
 ```mermaid
 sequenceDiagram
     actor User as 사용자
     participant Web as Next.js Client Component
-    participant SA as Server Action (createDiagnosis)
+    participant SA as Server Action
     participant Geo as 카카오 Geocoding
-    participant Adapter as Transport Adapter
-    participant Kakao as 카카오 모빌리티 (1차)
-    participant Naver as 네이버 지도 (백업)
-    participant ODsay as ODsay Lab (3차)
-    participant Score as 스코어링 모듈
-    participant Prisma as Prisma ORM
+    participant Kakao as 카카오 모빌리티 API
     participant Sentry as Sentry
 
     User->>Web: 주소A 입력 (자동완성)
@@ -786,57 +695,38 @@ sequenceDiagram
 
     alt 주소 1개만 입력
         Web->>User: 인라인 에러 "두 번째 주소를 입력해 주세요" (≤ 200ms)
-        Note over Web: Server Action 호출 차단
+        Note over Web: API 호출 차단
     else 주소 2개 입력 (수도권 확인)
-        Web->>SA: createDiagnosis(좌표A, 좌표B, filters)
-        SA->>SA: 수도권 커버리지 검증
+        Web->>Web: 수도권 커버리지 클라이언트 검증
 
         alt 비수도권 주소 포함
-            SA-->>Web: Error "수도권만 지원"
             Web->>User: 커버리지 안내 UI (≤ 500ms)
         else 수도권 내
-            SA->>Adapter: 경로 계산 요청 (좌표A→후보동네들)
-            SA->>Adapter: 경로 계산 요청 (좌표B→후보동네들)
-            Adapter->>Kakao: 1차 API 호출
+            Note over Web,Kakao: Client Component에서 Promise.all 병렬 호출 (Vercel 10s Timeout 회피)
+            Web->>Kakao: 경로 계산 요청 (좌표A→후보동네들) — 병렬 1
+            Web->>Kakao: 경로 계산 요청 (좌표B→후보동네들) — 병렬 2
 
             alt 카카오 API 타임아웃 (5초)
-                Adapter->>Kakao: 자동 재시도 1회
+                Web->>Kakao: 자동 재시도 1회
                 alt 재시도 성공
-                    Kakao-->>Adapter: 경로 응답
+                    Kakao-->>Web: 경로 응답
                 else 재시도 실패
-                    Adapter->>Naver: 2차 폴백 → 네이버 지도
-                    alt 네이버도 실패
-                        Adapter->>ODsay: 3차 폴백 → ODsay Lab
-                        alt ODsay도 실패
-                            Adapter->>Prisma: 4차 폴백 → CachedRoute DB (24h TTL)
-                            alt 캐시 히트
-                                Prisma-->>Adapter: 캐시된 경로 + "⚠ 실시간 데이터 아님" 플래그
-                            else 캐시 미스
-                                Adapter->>Sentry: 전체 폴백 실패 로그 전송
-                                SA-->>Web: Error "일시적 오류"
-                                Web->>User: "잠시 후 다시 시도" 안내 (재시도 포함 ≤ 10초)
-                            end
-                        else ODsay 성공
-                            ODsay-->>Adapter: 경로 응답
-                        end
-                    else 네이버 성공
-                        Naver-->>Adapter: 경로 응답
-                    end
+                    Web->>Sentry: API 실패 로그 전송
+                    Web->>User: "잠시 후 다시 시도해 주세요" 안내 (재시도 포함 총 ≤ 10초)
                 end
             else 카카오 정상 응답
-                Kakao-->>Adapter: 경로·소요시간·환승 횟수 응답
+                Kakao-->>Web: 경로·소요시간·환승 횟수 응답
             end
 
-            SA->>Score: 교집합 후보 동네 산출 + 스코어링
-            Score-->>SA: 후보 동네 리스트 (랭킹 포함)
+            Web->>Web: 교집합 후보 동네 산출 + 스코어링 (클라이언트 연산)
 
             alt 교집합 0곳
-                SA-->>Web: (candidates: [], suggestions: [조건 완화 제안 ≥ 2개])
-                Web->>User: "조건을 만족하는 동네가 없습니다" + 조건 완화 제안 (≤ 1초)
+                Web->>User: "조건을 만족하는 동네가 없습니다" + 조건 완화 제안 ≥ 2개 (≤ 1초)
             else 교집합 ≥ 1곳
-                SA->>Prisma: Diagnosis + CandidateArea 저장
-                SA-->>Web: (candidates: [...], scores: [...])
-                Web->>User: 지도 위 교집합 후보 동네 시각화 (총 ≤ 3초)
+                Web->>SA: saveDiagnosisResult(candidates, scores)
+                SA->>SA: Prisma로 Diagnosis 결과 저장
+                SA-->>Web: 저장 확인
+                Web->>User: 지도 위 교집합 후보 동네 시각화 (총 ≤ 8초)
             end
         end
     end
@@ -977,6 +867,8 @@ sequenceDiagram
 
 #### 6.3.4 싱글 모드 — 상세 플로우
 
+> **v0.3 변경사항 (REQ-FUNC-023):** PDF 서버 사이드 생성(`@react-pdf/renderer`)을 제거하고, 브라우저 내장 `window.print()` + CSS `@media print` 제어로 대체하였다.
+
 ```mermaid
 sequenceDiagram
     actor User as 이직 후 이사자 (A-01)
@@ -984,8 +876,6 @@ sequenceDiagram
     participant SA as Server Action (createDiagnosis)
     participant Police as 경찰청 범죄 통계
     participant Prisma as Prisma ORM
-    participant PDF as Route Handler (/api/diagnosis/[id]/report.pdf)
-    participant ReactPDF as @react-pdf/renderer
 
     User->>Web: "싱글 모드" 선택
     User->>Web: 직장 주소 입력
@@ -1001,7 +891,7 @@ sequenceDiagram
         SA->>Prisma: CachedPoliceData 조회 (분기별 배치 저장된 데이터)
         Note over SA,Police: 분기 배치로 사전 수집된 데이터 활용
         SA->>SA: 안전 등급(A~D) 산출 + 편의시설·카페 밀집도 스코어 계산
-        SA->>Prisma: Diagnosis + CandidateArea 저장
+        SA->>Prisma: Diagnosis 결과 저장
         SA-->>Web: 후보 동네 (학군 항목 0건, 치안·편의시설 레이어 활성)
         Web->>User: 지도 시각화 (야간 치안·편의시설·카페 밀집도 기본 ON)
     end
@@ -1010,12 +900,9 @@ sequenceDiagram
     Web->>User: 야간 안전 등급(A~D) 표시 (커버리지 ≥ 수도권 90%)
 
     User->>Web: "리포트 저장" 클릭
-    Web->>PDF: GET /api/diagnosis/{id}/report.pdf
-    PDF->>Prisma: Diagnosis + CandidateArea 조회
-    PDF->>ReactPDF: React 컴포넌트 → PDF 렌더링 (A4 1~2쪽)
-    ReactPDF-->>PDF: PDF 바이너리
-    PDF-->>Web: application/pdf (≤ 3초)
-    Web->>User: PDF 다운로드 시작
+    Web->>Web: CSS @media print 스타일 적용 + window.print() 호출
+    Note over Web: 브라우저 기본 인쇄 다이얼로그 → PDF 저장 안내 (서버 호출 없음, ≤ 1초)
+    Web->>User: 브라우저 인쇄 다이얼로그 표시 (PDF 저장 선택 가능)
 ```
 
 #### 6.3.5 입력값 저장·재탐색 — 상세 플로우
@@ -1228,9 +1115,9 @@ flowchart LR
 flowchart TB
     subgraph Vercel["☁️ Vercel Platform (C-TEC-007)"]
         subgraph NextApp["⚡ Next.js App Router (C-TEC-001)"]
-            Client["🖥️ Client Components\nTailwind CSS + shadcn/ui (C-TEC-004)\n지도: react-kakao-maps-sdk"]
-            ServerActions["⚙️ Server Actions (C-TEC-002)\ncreateDiagnosis · createShareLink\nsaveSearch · replaySearch\ninitiateCheckout"]
-            RouteHandlers["🔌 Route Handlers\n/api/auth/[...nextauth]\n/api/payment/webhook\n/api/diagnosis/[id]/report\n/api/cron/crawl-listings"]
+            Client["🖥️ Client Components\nTailwind CSS + shadcn/ui (C-TEC-004)\n지도: react-kakao-maps-sdk\n교차 진단 연산 (Promise.all 병렬)\nwindow.print() PDF 저장"]
+            ServerActions["⚙️ Server Actions (C-TEC-002)\nsaveDiagnosisResult · createShareLink\nsaveSearch · replaySearch\ninitiateCheckout"]
+            RouteHandlers["🔌 Route Handlers\n/api/auth/[...nextauth]\n/api/payment/webhook\n/api/diagnosis/[id]/report"]
             Middleware["🔒 Next.js Middleware\n인증 검증 · Rate Limiting\n수도권 커버리지 체크"]
         end
 
@@ -1239,7 +1126,7 @@ flowchart TB
             TransAdapter["Transport Adapter\n카카오 ↔ 네이버 ↔ ODsay\n자동 폴백 (어댑터 패턴)"]
             ShareMod["Share Module\n공유 링크 CRUD · 열람 로그"]
             PayMod["Payment Module\n토스페이먼츠 PG 연동"]
-            ReportMod["Report Module\n@react-pdf/renderer PDF 생성"]
+            ReportMod["Report Module\nwindow.print() + CSS @media print\n리포트 조회 (SSR)"]
             AuthMod["Auth Module\nNextAuth.js v5\n카카오/네이버 OAuth"]
         end
 
@@ -1247,7 +1134,7 @@ flowchart TB
             AISDK["Vercel AI SDK\n@ai-sdk/google (Gemini)\n동네 추천 요약 · 맞춤 인사이트"]
         end
 
-        CronJobs["⏰ Vercel Cron Jobs\n급매 크롤링 (4시간 주기)\n공공데이터 배치 적재"]
+        CronJobs["⏰ Vercel Cron Jobs\n공공데이터 배치 적재"]
         VAnalytics["📊 Vercel Analytics\nSpeed Insights · Web Vitals"]
     end
 
@@ -1266,7 +1153,7 @@ flowchart TB
         EduAPI["교육부\n학교 배정 구역"]
         OAuthProv["OAuth Provider\n카카오 · 네이버"]
         TossPG["토스페이먼츠\n결제 PG"]
-        ListingSrc["매물 데이터 소스\n직방 · 피터팬"]
+        NaverRealty["네이버 부동산\n(아웃링크 대상)"]
         GeminiAPI["Google Gemini API\n(LLM)"]
     end
 
@@ -1280,10 +1167,9 @@ flowchart TB
     ServerActions --> DiagMod
     ServerActions --> ShareMod
     ServerActions --> PayMod
-    ServerActions --> ReportMod
+    Client --> ReportMod
     RouteHandlers --> AuthMod
     RouteHandlers --> PayMod
-    RouteHandlers --> ReportMod
 
     DiagMod --> TransAdapter
     TransAdapter --> KakaoAPI
@@ -1299,7 +1185,6 @@ flowchart TB
     ServerActions --> PrismaORM
     RouteHandlers --> PrismaORM
     CronJobs --> PrismaORM
-    CronJobs --> ListingSrc
     PrismaORM --> DevDB
     PrismaORM --> ProdDB
 
@@ -1310,13 +1195,13 @@ flowchart TB
 | 컴포넌트 | 역할 | 관련 REQ |
 | --- | --- | --- |
 | Next.js Middleware | 인증·Rate Limiting·라우팅 (별도 API Gateway 없이 Next.js 내장) | REQ-NF-022, REQ-FUNC-029 |
-| Diagnosis Module (Server Action) | 교차 계산 핵심 로직 | REQ-FUNC-001~008 |
-| Transport Adapter | 교통 API 폴백 (카카오↔네이버↔ODsay) | REQ-NF-040, REQ-FUNC-003 |
+| Diagnosis Module (Client Component + Server Action) | 교차 계산 핵심 로직 (Client에서 API 병렬 호출 → Server Action으로 결과 저장) | REQ-FUNC-001~008 |
+| Transport API (카카오 모빌리티) | 교통 API 1종 직접 호출 (Client Component에서 fetch) | REQ-FUNC-003 |
 | Share Module (Server Action) | 공유 링크 CRUD | REQ-FUNC-009~014 |
 | Payment Module | PG 연동·결제 처리 (Server Action + Route Handler) | REQ-FUNC-030, REQ-NF-025 |
-| Report Module | PDF 생성 (@react-pdf/renderer) + 리포트 조회 | REQ-FUNC-023, REQ-NF-010 |
+| Report Module | 리포트 조회 (SSR) + window.print() PDF 저장 (클라이언트) | REQ-FUNC-023, REQ-NF-010 |
 | Auth Module (NextAuth.js) | OAuth 소셜 로그인·세션 관리 | REQ-FUNC-029 |
-| Vercel Cron Jobs | 4시간 주기 급매 크롤링 + 공공데이터 배치 적재 | REQ-FUNC-016, REQ-NF-005 |
+| Vercel Cron Jobs | 공공데이터 배치 적재 (급매 크롤링은 아웃링크로 대체) | REQ-NF-005 |
 | AI Layer (Vercel AI SDK + Gemini) | 동네 추천 요약·맞춤 인사이트 생성 | C-TEC-005, C-TEC-006 |
 | Prisma ORM | DB 접근 추상화 (SQLite ↔ Supabase PostgreSQL) | C-TEC-003 |
 
@@ -1334,7 +1219,6 @@ classDiagram
         +DateTime createdAt
         +DateTime updatedAt
         +createDiagnosis(params) Diagnosis
-        +getSavedSearches() List~SavedSearch~
         +getPaymentHistory() List~Payment~
     }
 
@@ -1347,34 +1231,8 @@ classDiagram
         +ServiceMode mode
         +Boolean deadlineMode
         +DateTime createdAt
-        +addCommutePoint(point) CommutePoint
-        +calculateIntersection() List~CandidateArea~
         +generateTimeline() Timeline
         +createShareLink(password?) ShareLink
-    }
-
-    class CommutePoint {
-        +UUID id
-        +UUID diagnosisId
-        +String label
-        +Decimal latitude
-        +Decimal longitude
-        +String address
-        +geocode() Coordinate
-    }
-
-    class CandidateArea {
-        +UUID id
-        +UUID diagnosisId
-        +String dongCode
-        +String dongName
-        +Integer commuteMinA
-        +Integer commuteMinB
-        +SafetyGrade safetyGrade
-        +JSON scoreBreakdown
-        +Integer rank
-        +calculateScore() Float
-        +getSafetyGrade() SafetyGrade
     }
 
     class ShareLink {
@@ -1389,18 +1247,6 @@ classDiagram
         +isExpired() Boolean
         +verifyPassword(input) Boolean
         +incrementViewCount() void
-        +logView(viewerInfo) ViewLog
-    }
-
-    class SavedSearch {
-        +UUID id
-        +UUID userId
-        +UUID diagnosisId
-        +JSON searchParams
-        +DateTime savedAt
-        +Date nextAlert
-        +replay() DiagnosisResult
-        +validateDongCode() Boolean
     }
 
     class Payment {
@@ -1418,41 +1264,21 @@ classDiagram
         +refund() Boolean
     }
 
-    class ViewLog {
-        +UUID id
-        +UUID shareLinkId
-        +String viewerIpHash
-        +String userAgent
-        +DateTime viewedAt
+    class DiagnosisClientService {
+        +fetchRoutes(pointA, pointB) Promise~RouteResult[]~
+        +calculateIntersection(routes, filters) List~CandidateResult~
+        +scoreCandidates(candidates) List~CandidateResult~
+        +triggerPrint() void
     }
 
-    class DiagnosisService {
-        +create(params) Diagnosis
-        +getById(id) Diagnosis
-        +calculateIntersection(pointA, pointB, filters) List~CandidateArea~
-        +recalculateWithTimeSlot(diagnosisId, timeSlot) List~CandidateArea~
-        +applyFilters(diagnosisId, filters) List~CandidateArea~
-    }
-
-    class TransportAdapter {
-        <<interface>>
-        +getRoute(origin, dest, departAt) RouteResult
-        +getCommuteTime(origin, dest) Integer
-    }
-
-    class KakaoTransportAdapter {
-        +getRoute(origin, dest, departAt) RouteResult
-        +getCommuteTime(origin, dest) Integer
-    }
-
-    class NaverTransportAdapter {
+    class KakaoTransportClient {
         +getRoute(origin, dest, departAt) RouteResult
         +getCommuteTime(origin, dest) Integer
     }
 
     class ScoringEngine {
-        +score(candidates, criteria) List~CandidateArea~
-        +rank(candidates) List~CandidateArea~
+        +score(candidates, criteria) List~CandidateResult~
+        +rank(candidates) List~CandidateResult~
     }
 
     %% Enum definitions
@@ -1475,14 +1301,6 @@ classDiagram
         EXPIRED
     }
 
-    class SafetyGrade {
-        <<enumeration>>
-        A
-        B
-        C
-        D
-    }
-
     class PaymentPlan {
         <<enumeration>>
         ONE_TIME
@@ -1499,37 +1317,29 @@ classDiagram
 
     %% Relationships
     User "1" --> "*" Diagnosis : creates
-    User "1" --> "*" SavedSearch : saves
     User "1" --> "*" Payment : pays
-    Diagnosis "1" --> "2" CommutePoint : has
-    Diagnosis "1" --> "*" CandidateArea : generates
     Diagnosis "1" --> "0..1" ShareLink : shared_via
     Diagnosis "1" --> "*" Payment : charged_for
-    ShareLink "1" --> "*" ViewLog : logged_by
-    SavedSearch "*" --> "0..1" Diagnosis : references
 
-    DiagnosisService --> Diagnosis : manages
-    DiagnosisService --> TransportAdapter : uses
-    DiagnosisService --> ScoringEngine : delegates
-    KakaoTransportAdapter ..|> TransportAdapter : implements
-    NaverTransportAdapter ..|> TransportAdapter : implements
+    DiagnosisClientService --> KakaoTransportClient : uses
+    DiagnosisClientService --> ScoringEngine : delegates
 
     User --> AuthProvider
     User --> ServiceMode
     Diagnosis --> DiagnosisStatus
     Diagnosis --> ServiceMode
-    CandidateArea --> SafetyGrade
     Payment --> PaymentPlan
     Payment --> PaymentStatus
 ```
 
 ---
 
-> **Software Requirements Specification (SRS)** | Document ID: SRS-001 | Rev 1.3 | 2026-04-16
+> **Software Requirements Specification (SRS)** | Document ID: SRS-001 | Rev 1.4 | 2026-04-18
 >
 > *본 SRS는 PRD v0.1-rev.2에 기반하여 ISO/IEC/IEEE 29148:2018 표준을 준수하여 작성되었습니다.*
 > *모든 요구사항은 REQ-FUNC-xxx / REQ-NF-xxx 형식의 고유 ID를 가진 atomic requirement로 구성되며, Traceability Matrix를 통해 Source Story/KPI와 양방향 추적이 가능합니다.*
 > *Rev 1.1: UseCase Diagram, ERD, Component Diagram, Class Diagram 추가 (2026-04-15)*
 > *Rev 1.2: Next.js App Router 단일 풀스택 아키텍처(C-TEC-001~007) 정렬 — Constraints, API Overview, NFR, API Endpoint List, Component Diagram 전면 재작성 (2026-04-16)*
 > *Rev 1.3: 상세 시퀀스 다이어그램 6건 전면 재작성 (Server Action/Route Handler/Prisma/NextAuth 체계), REQ-FUNC-029 NextAuth 세션 전략 전환, REQ-NF-018 httpOnly cookie 보안 갱신, Transport Adapter 4단계 폴백(카카오→네이버→ODsay→CachedRoute DB) 반영, PDF 생성 @react-pdf/renderer 명시 (2026-04-16)*
+> *Rev 1.4: 내부 정합성 검수 — 6.3.1 교차 진단 시퀀스를 Client Component 병렬 호출로 재작성(REQ-FUNC-003 정렬), 6.3.4 싱글 모드 시퀀스 window.print() 전환(REQ-FUNC-023 정렬), 6.6 Component Diagram Report Module·Cron Jobs·Route Handlers 갱신, 6.7 Class Diagram ERD 4엔터티 정렬(CommutePoint·CandidateArea·SavedSearch·ViewLog 제거), REQ-NF-010 window.print() 반영 (2026-04-18)*
 

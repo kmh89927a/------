@@ -56,3 +56,7 @@ status: active
 
 - Sources: [[src-market-analysis]], [[src-competitor-analysis]], [[src-problem-definition]]
 - Concepts: [[two-route-intersection]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-foundation]] — 시장 규모에 기반한 기술 스택 결정

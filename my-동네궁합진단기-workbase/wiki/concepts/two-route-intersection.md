@@ -61,8 +61,31 @@ status: active
 | `FilterPanel` | shadcn/ui Slider | 통근시간·예산 필터 |
 | `AddressInput` | shadcn/ui Combobox | 카카오 Geocoding 자동완성 |
 
+## v1.6 확장 정보 (2026-04-26)
+
+### CMD-DIAG-002: Promise.allSettled 클라이언트 측 처리
+
+- Vercel Serverless Timeout(10초) 회피를 위해 **교통 API 호출과 교차 연산을 모두 Client Component에서 수행**
+- `Promise.allSettled`를 사용하여 일부 API 실패 시에도 성공한 결과로 부분 산출 가능
+- 실패한 항목은 Sentry 로깅 + 사용자에게 부분 결과 안내
+
+### CMD-DIAG-006: 교통 API 타임아웃 핸들링 보강
+
+- **5초 타임아웃** + **1회 재시도**: AbortController 기반 타임아웃 → 재시도 1회 → 실패 시 Sentry 로그 + 토스트 안내
+- 무한 로딩 0건 보장 (REQ-NF-001)
+- CMD-DIAG-002 ↔ CMD-DIAG-006 **보강 관계**: DIAG-002의 병렬 호출에 DIAG-006의 타임아웃 정책 적용
+
+### 성능 목표 (v1.6 갱신)
+
+| 지표 | 목표 |
+|---|---|
+| 교차 진단 응답 **p95** | **≤ 8초** (REQ-NF-001) |
+| 교집합 0곳 시 대안 제안 | ≥ 2개 |
+| 수도권 커버리지 | ≥ 90% |
+| 타임아웃 | 5초 + 1회 재시도 |
+
 ## 관련 페이지
 
-- Entities: [[diagnosis]], [[user]]
+- Entities: [[diagnosis]], [[user]], [[domain-diagnosis]]
 - Sources: [[src-srs]], [[src-prd]], [[src-aos-dos]], [[src-implementation-plan]]
-- Concepts: [[deadline-mode]], [[share-link]], [[tech-stack]]
+- Concepts: [[deadline-mode]], [[share-link]], [[tech-stack]], [[architecture-patterns]], [[srs-v1.6-changes]]

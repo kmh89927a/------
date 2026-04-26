@@ -53,3 +53,8 @@ JTBD(Jobs To Be Done) 프레임워크에 기반한 가치 제안 분석. AOS(기
 
 - Concepts: [[two-route-intersection]], [[market-size]]
 - Sources: [[src-prd]], [[src-jtbd]], [[src-aos-dos]], [[src-persona]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-diagnosis]] — 가치 제안의 핵심 전달 채널
+- [[domain-sharelink]] — 배우자 설득 가치

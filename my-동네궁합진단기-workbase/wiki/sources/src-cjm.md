@@ -44,3 +44,8 @@ Core User 5명(김지영·박상민·최유리·정우진·이수현)의 5단계
 - Entities: [[persona-spectrum]]
 - Sources: [[src-persona]], [[src-jtbd]], [[src-aos-dos]]
 - Concepts: [[two-route-intersection]], [[share-link]], [[deadline-mode]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-ui]] — CJM 기반 UI 여정 설계
+- [[domain-diagnosis]] — 여정 핵심 터치포인트

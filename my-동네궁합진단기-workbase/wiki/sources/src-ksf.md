@@ -35,3 +35,8 @@ status: active
 
 - Sources: [[src-prd]], [[src-market-analysis]]
 - Concepts: [[tech-stack]], [[share-link]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-sharelink]] — KSF 3번: 배우자 설득 도구
+- [[domain-diagnosis]] — KSF 1번: 교차 분석 정확도

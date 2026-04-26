@@ -56,3 +56,8 @@ status: active
 
 - Sources: [[src-persona]], [[src-cjm]], [[src-jtbd]]
 - Concepts: [[two-route-intersection]], [[deadline-mode]], [[single-mode]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-ui]] — 페르소나 기반 UI 설계
+- [[domain-diagnosis]] — Core User 5명의 Pain Point 해결

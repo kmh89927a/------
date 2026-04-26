@@ -41,3 +41,7 @@ status: active
 
 - Sources: [[src-market-analysis]]
 - Concepts: [[market-size]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-foundation]] — 경쟁사 부재 → 기술 스택 단순화 근거

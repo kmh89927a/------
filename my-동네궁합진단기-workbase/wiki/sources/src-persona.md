@@ -56,3 +56,8 @@ status: active
 - Entities: [[persona-spectrum]]
 - Sources: [[src-cjm]], [[src-jtbd]], [[src-value-proposition]]
 - Concepts: [[two-route-intersection]], [[single-mode]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-ui]] — 페르소나 기반 UI 설계
+- [[domain-single]] — ⑥이준혁 Adjacent 페르소나

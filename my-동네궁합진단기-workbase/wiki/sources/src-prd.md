@@ -74,3 +74,9 @@ status: active
 - Entities: [[user]], [[diagnosis]], [[share-link-entity]]
 - Concepts: [[two-route-intersection]], [[deadline-mode]], [[single-mode]], [[share-link]]
 - Sources: [[src-srs]], [[src-task-list]], [[src-implementation-plan]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-auth]] — 인증 요구사항
+- [[domain-ui]] — UI/UX 요구사항
+- [[domain-diagnosis]] — F1 핵심 기능 정의

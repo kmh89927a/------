@@ -60,3 +60,9 @@ status: active
 
 - Sources: [[src-jtbd]], [[src-persona]], [[src-cjm]]
 - Concepts: [[two-route-intersection]], [[share-link]], [[deadline-mode]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-diagnosis]] — AOS 1위 Pain Point 해결
+- [[domain-deadline]] — AOS 2위 긴급 이사
+- [[domain-sharelink]] — DOS 3위 배우자 공유

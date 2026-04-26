@@ -37,3 +37,7 @@ status: active
 
 - Sources: [[src-prd]], [[src-market-analysis]], [[src-value-proposition]]
 - Concepts: [[two-route-intersection]], [[market-size]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-diagnosis]] — 문제 정의에서 도출된 핵심 기능

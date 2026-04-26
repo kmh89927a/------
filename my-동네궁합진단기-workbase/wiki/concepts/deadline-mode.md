@@ -46,8 +46,37 @@ status: active
 - ✅ **MVP 포함** (Phase 4, Day 25-30)
 - REQ-FUNC-015~020
 
+## v1.6 확장 정보 (2026-04-26)
+
+### 타임라인 상세 (CMD-DL-001)
+
+- 타임라인 **≥5단계** 자동 생성 (계약 역산)
+- **D+7 미만 차단** (DEADLINE_TOO_SOON): 7일 이내 데드라인 입력 시 클라이언트 검증으로 차단
+- 각 단계: 부동산 탐색 → 내부 수리 → 이사 준비 → 계약 → 입주
+
+### 네이버 부동산 아웃링크 (REQ-FUNC-016, EXT-08)
+
+- 교집합 동네 클릭 → 네이버 부동산 검색 URL 파라미터 자동 조합 → 새 창 열기
+- CMD-DL-002 구현: URL 파라미터에 동네명, 매물 유형, 가격 범위 포함
+
+### 매물 0건 시 처리 (REQ-FUNC-019)
+
+- 조건 완화 제안 **≥3개** 표시 (예: 가격 범위 확대, 동네 범위 확대, 매물 유형 변경)
+- **알림 구독**: 신규 매물 등록 시 푸시 알림 (CMD-DL-003)
+- 30분 요약 카드: Top 3 동네 핵심정보 (통근·가격·안전), 항목 ≥6개/카드 (QRY-DL-002)
+
+### 관련 태스크
+
+| 태스크 ID | 설명 |
+|---|---|
+| CMD-DL-001 | 데드라인 모드 활성화 + 타임라인 생성 |
+| CMD-DL-002 | 네이버 부동산 아웃링크 URL 조합 |
+| CMD-DL-003 | 매물 0건 시 조건 완화 + 알림 구독 |
+| QRY-DL-001 | 교집합 매물 조회 |
+| QRY-DL-002 | 30분 요약 카드 |
+
 ## 관련 페이지
 
-- Entities: [[diagnosis]]
+- Entities: [[diagnosis]], [[domain-deadline]]
 - Sources: [[src-srs]], [[src-prd]], [[src-aos-dos]], [[src-cjm]]
-- Concepts: [[two-route-intersection]]
+- Concepts: [[two-route-intersection]], [[srs-v1.6-changes]], [[known-follow-ups]]

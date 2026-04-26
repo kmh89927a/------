@@ -70,3 +70,8 @@ status: active
 
 - Concepts: [[market-size]]
 - Sources: [[src-value-proposition]], [[src-problem-definition]]
+
+## 관련 도메인 (v1.6)
+
+- [[domain-foundation]] — 시장 기회 기반 MVP 스코프 결정
+- [[domain-deadline]] — 비자발적 긴급 이사 30%

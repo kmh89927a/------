@@ -14,6 +14,12 @@ status: active
 
 14개 UI/UX 프론트엔드 태스크를 포함하는 도메인. Mock 데이터(MOCK-001~005)를 활용하여 백엔드와 병렬 개발 가능하며, INFRA-004(shadcn/ui)가 선행 조건. 모바일 퍼스트 반응형 설계, Server/Client 컴포넌트 분리, shadcn/ui 기반 디자인 시스템을 적용한다.
 
+## 사용자 가치
+
+- **핵심 페르소나**: 모든 사용자 — UI는 사용자가 직접 접하는 유일한 레이어 — [[persona-spectrum]]
+- **CJM 기반 설계**: [[src-cjm]]의 발견→탐색→결정→공유 여정을 14개 UI 태스크로 구체화
+- **설계 원칙**: 모바일 퍼스트 반응형, Server/Client 컴포넌트 분리, shadcn/ui 기반
+
 ## 포함 태스크 (14개)
 
 | Task ID | 1줄 요약 |
@@ -47,6 +53,6 @@ status: active
 
 ## 관련 페이지
 
-- Entities: [[persona-spectrum]]
-- Sources: [[src-cjm]], [[src-prd]]
-- Concepts: [[task-domains-overview]], [[known-follow-ups]]
+- Entities: [[persona-spectrum]], [[domain-infra]], [[domain-diagnosis]], [[domain-sharelink]], [[domain-deadline]], [[domain-single]], [[domain-savedsearch]]
+- Sources: [[src-cjm]], [[src-prd]], [[src-srs]]
+- Concepts: [[tech-stack]], [[task-domains-overview]], [[known-follow-ups]], [[domain-dependencies]]

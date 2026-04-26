@@ -14,6 +14,12 @@ status: active
 
 데드라인 모드(F3)의 타임라인 생성, 네이버 부동산 아웃링크, 교집합 매물 조회, 매물 0건 시 조건 완화 제안, 30분 요약 카드를 담당하는 도메인. D+7 미만 차단(DEADLINE_TOO_SOON) 검증과 계약 역산 타임라인(≥5단계) 자동 생성이 핵심.
 
+## 사용자 가치
+
+- **핵심 페르소나**: ③박준호(긴급 이사자, D-2개월) — [[persona-spectrum]]
+- **시나리오**: 이사 마감일 입력 → 계약 역산 타임라인 ≥5단계 → 네이버 부동산 아웃링크 → 30분 요약 카드
+- **Pain Point**: AOS 4.00 (Severity 5.0) — 긴급 이사 시 시간 부족 — [[src-aos-dos]]
+
 ## 포함 태스크 (5개)
 
 | Task ID | 1줄 요약 |
@@ -28,7 +34,7 @@ status: active
 
 | NFR ID | 내용 |
 |---|---|
-| REQ-NF-001 | 타임라인 생성 ≤ 2초 |
+| (구현 목표) | 타임라인 생성 ≤ 2초 |
 | REQ-NF-007 | 교집합 매물 연산 p95 ≤ 1,500ms |
 | REQ-NF-035 | Sentry 에러 추적 |
 
@@ -39,6 +45,6 @@ status: active
 
 ## 관련 페이지
 
-- Entities: [[diagnosis]]
-- Sources: [[src-srs]]
-- Concepts: [[deadline-mode]], [[srs-v1.6-changes]], [[known-follow-ups]], [[task-domains-overview]]
+- Entities: [[diagnosis]], [[domain-foundation]], [[domain-diagnosis]]
+- Sources: [[src-srs]], [[src-aos-dos]], [[src-cjm]]
+- Concepts: [[deadline-mode]], [[srs-v1.6-changes]], [[known-follow-ups]], [[task-domains-overview]], [[domain-dependencies]], [[architecture-patterns]]

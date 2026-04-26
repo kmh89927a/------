@@ -14,6 +14,12 @@ status: active
 
 싱글 모드(F4)의 학군·가족 항목 자동 숨김, 야간 안전 등급(A~D) 조회, 리포트 저장(window.print())을 담당하는 도메인. DB-009/DB-010 제거 후 정적 JSON 에셋(public/data/) 패턴을 적용하며, 수도권 90% 커버리지 CI 검증이 후속 과제.
 
+## 사용자 가치
+
+- **핵심 페르소나**: ⑥이준혁(이직 후 이사, 30대 싱글) — [[persona-spectrum]]
+- **시나리오**: 싱글 모드 선택 → 직장+여가 주소 입력 → 학군 숨김+치안 강조 → window.print() 리포트 저장
+- **Pain Point**: "싱글인데 학군 항목이 있으면 불필요" 피드백 — [[src-cjm]]
+
 ## 포함 태스크 (3개)
 
 | Task ID | 1줄 요약 |
@@ -36,6 +42,6 @@ status: active
 
 ## 관련 페이지
 
-- Entities: [[diagnosis]]
-- Sources: [[src-srs]]
-- Concepts: [[single-mode]], [[architecture-patterns]], [[srs-v1.6-changes]], [[known-follow-ups]], [[task-domains-overview]]
+- Entities: [[diagnosis]], [[persona-spectrum]], [[domain-foundation]], [[domain-diagnosis]]
+- Sources: [[src-srs]], [[src-persona]], [[src-cjm]]
+- Concepts: [[single-mode]], [[architecture-patterns]], [[srs-v1.6-changes]], [[known-follow-ups]], [[task-domains-overview]], [[domain-dependencies]]

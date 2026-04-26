@@ -14,6 +14,11 @@ status: active
 
 프로젝트 인프라 초기화, 디자인 시스템 설정, AI SDK 연동, 보안(Rate Limiting), 모니터링(Sentry)을 포함하는 운영 기반 도메인. INFRA-001이 프로젝트 전체의 출발점이며, INFRA-004(shadcn/ui)는 UI 14개 태스크를 unblock하고, INFRA-005(AI SDK)는 CMD-DIAG-003 AI 스코어링을 unblock한다.
 
+## 사용자 가치
+
+- **내부 사용자**: 개발자 (1인 퍼블리셔) — 프로젝트 초기화부터 배포까지 전 과정의 기반
+- **가치**: INFRA-004가 UI 14개 태스크를 unblock, INFRA-005가 AI 스코어링을 unblock. 단일 Critical Path의 출발점
+
 ## 포함 태스크 (6개)
 
 | Task ID | 1줄 요약 |
@@ -39,5 +44,6 @@ status: active
 
 ## 관련 페이지
 
+- Entities: [[domain-foundation]], [[domain-auth]], [[domain-diagnosis]]
 - Sources: [[src-implementation-plan]], [[src-srs]], [[src-task-list]]
-- Concepts: [[tech-stack]], [[task-domains-overview]], [[domain-dependencies]]
+- Concepts: [[tech-stack]], [[task-domains-overview]], [[domain-dependencies]], [[architecture-patterns]], [[known-follow-ups]]

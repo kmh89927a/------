@@ -1,7 +1,7 @@
 # Wiki Schema — 동네궁합진단기 지식베이스
 
 > **역할:** 이 파일은 LLM 에이전트가 Wiki를 읽고, 쓰고, 유지보수할 때 따라야 할 규칙을 정의합니다.
-> **마지막 수정:** 2026-04-23 (초기 생성)
+> **마지막 수정:** 2026-04-26 (v1.6 갱신 — 도메인 페이지 형식 추가, 폐기 매핑 제거)
 
 ---
 
@@ -95,6 +95,8 @@ status: active | draft | deprecated
 
 ### 2.5 Concept 페이지 형식
 
+> 아래는 기능·비즈니스 개념 페이지의 표준 형식입니다.
+
 ```markdown
 ## 정의
 (1~2문장)
@@ -110,6 +112,39 @@ status: active | draft | deprecated
 
 ## 관련 페이지
 ```
+
+### 2.6 도메인 페이지 형식 (domain-*.md)
+
+> entities/domain-*.md는 TASK_LIST v1.3의 도메인 단위 인덱스 페이지입니다.
+
+```markdown
+## 도메인 개요
+(2~3문장: 이 도메인의 역할, 핵심 기능, 왜 필요한지)
+
+## 사용자 가치
+- 페르소나: [[persona-spectrum]] 중 누구?
+- 핵심 시나리오: Trigger → Action → Outcome
+
+## 포함 태스크 (N개)
+| Task ID | 1줄 요약 |
+|---|---|
+| ... | ... |
+
+## 핵심 NFR
+| NFR ID | 내용 |
+|---|---|
+
+## 의존성 관계
+- **의존**: ...
+- **피의존**: ...
+
+## 관련 페이지
+- Entities: [[...]]
+- Sources: [[...]]
+- Concepts: [[...]]
+```
+
+---
 
 ## 3. 운영 워크플로우
 
@@ -156,9 +191,7 @@ status: active | draft | deprecated
 | `06_TASK_LIST_v1.3.md` | `src-task-list.md` | ✅ |
 | `06_value-proposition-sheet_V2_(Rooted).md` | `src-value-proposition.md` | ✅ |
 | `10_jtbd-interview-report.md` | `src-jtbd.md` | ✅ |
-| `1_porters-foreces.md` | `src-porters-forces.md` | ⚠️ 원본 미완성 |
 | `2_competents-analysis.md` | `src-competitor-analysis.md` | ✅ |
-| `3_value-chain.md` | `src-value-chain.md` | ⚠️ 원본 미완성 |
 | `4_ksf-report.md` | `src-ksf.md` | ✅ |
 | `5_problem-definition.md` | `src-problem-definition.md` | ✅ |
 | `6_TAM-SAM-SOM+MarketSegment.md` | `src-market-analysis.md` | ✅ |

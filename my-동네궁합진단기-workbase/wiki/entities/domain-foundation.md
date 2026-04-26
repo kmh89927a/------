@@ -16,6 +16,11 @@ status: active
 
 DB-001(Prisma 초기화)이 전체 스키마 체인의 출발점이며, API-006(공통 에러 코드)은 모든 API 도메인에 adaptLegacyMap() 어댑터를 제공한다.
 
+## 사용자 가치
+
+- **내부 사용자**: 개발자 + AI 에이전트 — 모든 도메인이 Foundation의 산출물(Prisma 스키마, DTO, Mock)을 import
+- **가치**: Wave 1에서 최우선 완료 → 후속 모든 도메인(Auth, Diagnosis, ShareLink 등) unblock
+
 ## 포함 태스크 (16개)
 
 | Task ID | 1줄 요약 |
@@ -50,6 +55,6 @@ DB-001(Prisma 초기화)이 전체 스키마 체인의 출발점이며, API-006(
 
 ## 관련 페이지
 
-- Entities: [[diagnosis]], [[user]]
+- Entities: [[diagnosis]], [[user]], [[share-link-entity]], [[saved-search]]
 - Sources: [[src-implementation-plan]], [[src-srs]], [[src-task-list]]
-- Concepts: [[tech-stack]], [[task-domains-overview]], [[domain-dependencies]], [[architecture-patterns]]
+- Concepts: [[tech-stack]], [[task-domains-overview]], [[domain-dependencies]], [[architecture-patterns]], [[known-follow-ups]]

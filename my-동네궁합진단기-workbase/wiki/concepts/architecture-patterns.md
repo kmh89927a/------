@@ -31,12 +31,34 @@ status: active
 - **장점**: 일부 API 실패 시에도 성공한 결과로 부분 산출 → 사용자 경험 보존
 - **영향**: [[domain-diagnosis]], [[domain-deadline]]
 
+```typescript
+// CMD-DIAG-002 pseudo-code
+const results = await Promise.allSettled(
+  candidateAreas.map(area =>
+    fetchTransitTime(area, { timeout: 5000, retries: 1 })
+  )
+);
+const succeeded = results
+  .filter(r => r.status === 'fulfilled')
+  .map(r => r.value);
+// 실패 항목 → Sentry 로깅, 성공 항목으로 부분 산출
+```
+
 ### 3. Timing Attack 방지 — DUMMY_HASH
 
 - **동기**: 비밀번호 미설정 공유 링크에서 bcrypt.compare() 실행 여부로 비밀번호 존재 여부를 추론하는 Timing Attack 차단
 - **구현**: `passwordHash === null`인 경우에도 사전 정의된 `DUMMY_HASH`와 bcrypt.compare() 실행 → 응답 시간 균일화
 - **위치**: CMD-SHARE-004 (비밀번호 검증)
 - **영향**: [[domain-sharelink]]
+
+```typescript
+// CMD-SHARE-004 pseudo-code
+const DUMMY_HASH = '$2b$12$...'; // 사전 생성된 bcrypt 해시
+const hashToCompare = link.passwordHash ?? DUMMY_HASH;
+const isValid = await bcrypt.compare(inputPassword, hashToCompare);
+if (!link.passwordHash) return true; // 비밀번호 미설정 → 항상 통과
+return isValid;
+```
 
 ### 4. AI provider 환경변수 분기
 
@@ -51,6 +73,16 @@ status: active
 - **구현**: `splitForPreview(candidateAreas)` 함수로 배열에서 1곳 분리 → { preview: CandidateArea, locked: CandidateArea[] }
 - **위치**: QRY-SHARE-001 (SSR 공유 리포트)
 - **영향**: [[domain-sharelink]]
+
+```typescript
+// QRY-SHARE-001 pseudo-code
+function splitForPreview(areas: CandidateArea[]) {
+  const [preview, ...locked] = areas.sort((a, b) => b.score - a.score);
+  return { preview, locked };
+}
+// preview: 무료 공개 1곳 (최고 점수)
+// locked: 잠금 ≥2곳 → 비로그인 클릭 시 UI-008 회원가입 유도 모달
+```
 
 ### 6. Prisma Transaction — Diagnosis + CandidateArea 원자성
 

@@ -11,6 +11,49 @@ updated: 2026-04-26
 
 ---
 
+## [2026-04-26] strengthen | 자기 점검 및 보강 (v2 → v2.1)
+
+### 3-Phase Self-Audit 결과
+
+- **Phase 1**: 7개 영역 점검, 11개 약점 발견 (H:2, M:7, L:1)
+- **Phase 2**: 전 약점 보강 완료
+- **Phase 3**: 재검증 통과
+
+### 우선순위 H 처리 (2건)
+
+| 약점 | 수정 내용 |
+|---|---|
+| two-route-intersection.md NFR p95 모순 | L39 "≤ 3초" → "≤ 8초 (REQ-NF-001)" 정정 |
+| _schema.md 폐기 파일 잔재 | src-porters-forces, src-value-chain 행 제거 + §2.6 도메인 페이지 형식 추가 |
+
+### 우선순위 M 처리 (7건)
+
+| 약점 | 수정 내용 |
+|---|---|
+| domain-* 사용자 가치 누락 | 10개 도메인 페이지에 `## 사용자 가치` 섹션 추가 |
+| domain-deadline NFR-001 오용 | "(구현 목표)" 표기로 변경 |
+| architecture-patterns 코드 예시 부재 | Promise.allSettled, DUMMY_HASH, splitForPreview 3개에 TS pseudo-code 추가 |
+| 도메인 페이지 Use Case 전무 | 사용자 가치 섹션에 시나리오 포함 |
+| 페르소나↔도메인 매핑 부재 | `concepts/persona-domain-flows.md` 신규 생성 |
+| _schema §2.6 도메인 형식 미정의 | 도메인 페이지 표준 형식 추가 |
+| overview.md 미갱신 | Wiki 구조 안내 + 활용 시나리오 6가지 추가 |
+
+### 통계
+
+| 지표 | 보강 전 | 보강 후 | 변화 |
+|---|---|---|---|
+| 총 페이지 수 | 42 | 43 | +1 (persona-domain-flows) |
+| 총 wiki-link | 511 | 664 | +153 |
+| 도메인 페이지 최소 링크 | 4 | 11 | +7 |
+| 정합성 모순 | 1건 | 0건 | ✅ |
+| NFR 인용 오류 | 1건 | 0건 | ✅ |
+
+### 신규 페이지
+
+- `concepts/persona-domain-flows.md` — 핵심 페르소나 3명 × 도메인 흐름 매핑
+
+---
+
 ## [2026-04-26] update | 살아있는 거울 모드 — SRS v1.6 / TASK_LIST v1.3 반영 Wiki 갱신
 
 ### 작업 내용

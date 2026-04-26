@@ -14,6 +14,12 @@ status: active
 
 Supabase Auth 기반 OAuth 인증(카카오/네이버), 세션 관리(@supabase/ssr httpOnly cookie), 게스트 임시 체험 모드를 포함하는 인증 도메인. NextAuth.js v5에서 Supabase Auth로 전환(SRS v1.6)된 후, PKCE OAuth 흐름을 채택.
 
+## 사용자 가치
+
+- **핵심 페르소나**: 모든 사용자 (인증은 전 도메인의 진입 관문) — [[persona-spectrum]]
+- **시나리오**: 카카오/네이버 OAuth 로그인 → 세션 생성 → 전 기능 이용 가능. OAuth 장애 시 게스트 모드(sessionStorage)
+- **가치**: 1클릭 소셜 로그인으로 진입 장벽 최소화, 장애 시에도 임시 체험 가능
+
 ## 포함 태스크 (4개)
 
 | Task ID | 1줄 요약 |
@@ -37,6 +43,6 @@ Supabase Auth 기반 OAuth 인증(카카오/네이버), 세션 관리(@supabase/
 
 ## 관련 페이지
 
-- Entities: [[user]]
+- Entities: [[user]], [[domain-foundation]], [[domain-infra]]
 - Sources: [[src-srs]], [[src-prd]]
-- Concepts: [[tech-stack]], [[srs-v1.6-changes]], [[task-domains-overview]]
+- Concepts: [[tech-stack]], [[srs-v1.6-changes]], [[task-domains-overview]], [[architecture-patterns]], [[domain-dependencies]], [[known-follow-ups]]

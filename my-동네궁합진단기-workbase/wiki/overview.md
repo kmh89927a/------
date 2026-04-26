@@ -4,7 +4,7 @@ category: meta
 tags: [mvp, 비즈니스, 기술]
 sources: [src-prd, src-srs, src-problem-definition]
 created: 2026-04-23
-updated: 2026-04-23
+updated: 2026-04-26
 status: active
 ---
 
@@ -47,6 +47,7 @@ status: active
 | 이직 후 이사 (싱글) | A-01 | 직장 + 여가 거점 최적화 | MVP (싱글 모드) |
 
 > 상세: [[persona-spectrum]], [[src-persona]], [[src-cjm]]
+> 페르소나별 도메인 흐름: [[persona-domain-flows]]
 
 ## MVP 기능 (5대 Feature)
 
@@ -109,3 +110,27 @@ status: active
 - **폐업 사유 1위**: 입지·업종 선정 실패 (25.0%)
 
 > 상세: [[market-size]], [[src-market-analysis]]
+
+## Wiki 구조 안내 (v1.6)
+
+이 Wiki는 **43개 페이지**로 구성됩니다:
+
+| 카테고리 | 페이지 수 | 핵심 페이지 |
+|---|---|---|
+| **Sources** | 13 | [[src-srs]], [[src-task-list]], [[src-implementation-plan]] |
+| **Entities** | 15 | [[diagnosis]], [[user]], + 도메인 인덱스 10개 |
+| **Concepts** | 12 | [[srs-v1.6-changes]], [[task-domains-overview]], [[architecture-patterns]], [[persona-domain-flows]] |
+| **Meta** | 4 | [[_schema]], [[index]], [[log]], overview (이 페이지) |
+
+> 전체 카탈로그: [[index]]
+
+## 활용 시나리오
+
+| # | 시나리오 | 시작 페이지 |
+|---|---|---|
+| 1 | "SRS v1.6에서 뭐가 바뀌었지?" | [[srs-v1.6-changes]] |
+| 2 | "Diagnosis 도메인에 어떤 태스크가 있지?" | [[domain-diagnosis]] → [[task-domains-overview]] |
+| 3 | "Promise.allSettled 패턴 코드 예시 보고 싶어" | [[architecture-patterns]] |
+| 4 | "맞벌이 부부 김지영이 어떤 Flow를 타지?" | [[persona-domain-flows]] |
+| 5 | "아직 해결 안 된 기술 빚이 뭐가 있지?" | [[known-follow-ups]] |
+| 6 | "도메인 간 의존성과 Critical Path는?" | [[domain-dependencies]] |

@@ -1,0 +1,25 @@
+# Onday UI Prototype — Cursor Rules
+
+## 프로젝트 컨텍스트
+- 제품: 내 하루 동선 맞춤 동네 궁합 진단기 (3040 맞벌이 부부 타겟)
+- 단계: 프로토타입 완료, production 기능 구현 진입
+- 스택: Vite + React 18 + TS strict + shadcn/ui + Tailwind v4 + pnpm
+
+## 절대 원칙
+- TS strict 위반 코드 작성 금지 (any, 무분별한 as 캐스팅 금지)
+- Tailwind arbitrary value (text-[Npx], bg-[#hex]) 사용 금지 — 토큰 사용
+- 모든 클릭 요소는 <button> 또는 <a> (div onClick 금지)
+- 페이지 루트는 <main>, 네비는 <nav>, 영역은 <section>
+- Mock 데이터는 lib/mocks/, 도메인 타입은 lib/types/ (SSOT)
+- 인라인 fontFamily 금지 (theme.css에서 처리됨)
+
+## 작업 컨벤션
+- 커밋: Conventional Commits (feat:, fix:, refactor:, docs:, chore:)
+- 브랜치: feat/*, refactor/*, fix/* prefix
+- 검증 게이트: pnpm typecheck && pnpm lint && pnpm build 모두 통과해야 머지
+
+## 참고 문서
+- docs/code-quality-report-v0.2.md — 현재 품질 상태 (4.0/5.0)
+- docs/UX_FLOW.md — UX 시나리오
+- docs/COMPONENT_STRUCTURE.md — 컴포넌트 계층
+- README.md — 실행법, 라우트 맵
